@@ -31,7 +31,7 @@ function hasCommonPattern(password) {
 }
 
 function getStrengthLevel(score) {
-  if (score >= 4) return 'strong';
+  if (score >= 5) return 'strong';
   if (score >= 3) return 'moderate';
   if (score >= 2) return 'weak';
   return 'very weak';
