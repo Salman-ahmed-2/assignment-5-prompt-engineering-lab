@@ -13,17 +13,19 @@
 
 | Mission | AI Tool | Input Tokens | Output Tokens | Total Tokens | Exact/Estimated | Token Efficiency Note |
 |---|---|---|---|---|---|---|
-| Mission 1: Debugging | Codex / Copilot | 400 | 600 | 1000 | Estimated | Single prompt with test cases; fix was straightforward |
-| Mission 2: Code Generation | Codex / Copilot | 500 | 900 | 1400 | Estimated | Included full field specs in one prompt; no re-generation needed |
-| Mission 3: Bad vs Good Prompts | Codex / Copilot | 600 | 1100 | 1700 | Estimated | Built on bad prompt output incrementally rather than starting fresh |
-| Mission 4: Refactoring | Codex / Copilot | 800 | 1200 | 2000 | Estimated | Included full before/after comparison in one prompt; avoided back-and-forth |
-| Mission 5: Code Review | Codex / Copilot | 1200 | 1800 | 3000 | Estimated | Single comprehensive review prompt covering all 12 criteria; applied 9 improvements in one pass |
+| Mission 1: Debugging | Deepeek / Copilot | 400 | 600 | 1000 | Estimated | Single prompt with test cases; fix was straightforward |
+| Mission 2: Code Generation | Deepseek  | 500 | 900 | 1400 | Estimated | Included full field specs in one prompt; no re-generation needed |
+| Mission 3: Bad vs Good Prompts | deepseek / Copilot | 600 | 1100 | 1700 | Estimated | Built on bad prompt output incrementally rather than starting fresh |
+| Mission 4: Refactoring | Deepseek  | 800 | 1200 | 2000 | Estimated | Included full before/after comparison in one prompt; avoided back-and-forth |
+| Mission 5: Code Review | Deepseek  | 1200 | 1800 | 3000 | Estimated | Single comprehensive review prompt covering all 12 criteria; applied 9 improvements in one pass |
 
-| **Final Total Tokens Used** | | | | **9100** | Estimated | |
+| **Final Total Tokens Used** | | | | **1,994,883** | Estimated | |
 |---|---|---|---|---|---|---|
 | **Token Efficiency Reflection** | | | | | | |
 
 ---
+
+![alt text](image.png)
 
 ## Token Efficiency Reflection
 
