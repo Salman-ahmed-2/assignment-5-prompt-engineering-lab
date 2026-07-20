@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Prompt Engineering Lab</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background: #f0f2f5;
+      color: #1a1a1a;
+      min-height: 100vh;
+    }
+
+    .header {
+      background: #1a1a2e;
+      color: #fff;
+      padding: 1.5rem 2rem;
+      text-align: center;
+    }
+
+    .header h1 {
+      font-size: 1.5rem;
+      font-weight: 600;
+    }
+
+    .header p {
+      font-size: 0.85rem;
+      color: #aaa;
+      margin-top: 0.25rem;
+    }
+
+    .container {
+      max-width: 560px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 10px;
+      padding: 1.5rem;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+    }
+
+    .card h2 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      color: #1a1a2e;
+    }
+
+    .field {
+      margin-bottom: 1rem;
+    }
+
+    .field label {
+      display: block;
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: #555;
+      margin-bottom: 0.3rem;
+    }
+
+    .field input {
+      width: 100%;
+      padding: 0.6rem 0.75rem;
+      border: 1.5px solid #ddd;
+      border-radius: 6px;
+      font-size: 0.9rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .field input:focus {
+      border-color: #4a6cf7;
+    }
+
+    .field input.error {
+      border-color: #e74c3c;
+    }
+
+    .error-msg {
+      color: #e74c3c;
+      font-size: 0.75rem;
+      margin-top: 0.3rem;
+    }
+
+    .strength-bar {
+      height: 6px;
+      border-radius: 3px;
+      background: #eee;
+      margin-top: 0.5rem;
+      overflow: hidden;
+    }
+
+    .strength-bar .fill {
+      height: 100%;
+      border-radius: 3px;
+      transition: width 0.3s, background 0.3s;
+    }
+
+    .strength-feedback {
+      font-size: 0.75rem;
+      color: #666;
+      margin-top: 0.3rem;
+    }
+
+    .score-label {
+      display: inline-block;
+      font-size: 0.7rem;
+      padding: 0.15rem 0.5rem;
+      border-radius: 10px;
+      font-weight: 600;
+      margin-left: 0.5rem;
+    }
+
+    .invalid { background: #fdecea; color: #c0392b; }
+    .very-weak { background: #fdecea; color: #c0392b; }
+    .weak { background: #fef3e2; color: #e67e22; }
+    .moderate { background: #eaf7ea; color: #27ae60; }
+    .strong { background: #d5f5e3; color: #1e8449; }
+
+    .requirements {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.3rem;
+      margin-top: 0.5rem;
+      font-size: 0.72rem;
+      color: #888;
+    }
+
+    .requirements span {
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+    }
+
+    .requirements .met { color: #27ae60; }
+    .requirements .unmet { color: #bbb; }
+
+    button {
+      width: 100%;
+      padding: 0.7rem;
+      background: #4a6cf7;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    button:hover {
+      background: #3b5de7;
+    }
+
+    button:disabled {
+      background: #bbb;
+      cursor: not-allowed;
+    }
+
+    .success {
+      background: #d5f5e3;
+      color: #1e8449;
+      padding: 0.75rem;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      text-align: center;
+      margin-top: 0.5rem;
+    }
+
+    .discount-card .result {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #1a1a2e;
+      text-align: center;
+      margin: 0.5rem 0;
+    }
+
+    .discount-card .field-row {
+      display: flex;
+      gap: 0.75rem;
+    }
+
+    .discount-card .field-row .field {
+      flex: 1;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <h1>Prompt Engineering Lab</h1>
+    <p>Assignment 5 — AI-Assisted Development Showcase</p>
+  </div>
+
+  <div class="container">
+
+    <!-- Password Strength Checker -->
+    <div class="card">
+      <h2>Password Strength Checker</h2>
+      <div class="field">
+        <label for="password">Enter a password</label>
+        <input type="text" id="password" placeholder="Type to check strength..." autocomplete="off">
+        <div class="error-msg" id="pw-error"></div>
+      </div>
+      <div class="strength-bar">
+        <div class="fill" id="strength-fill" style="width: 0%; background: #eee;"></div>
+      </div>
+      <div>
+        <span class="strength-feedback" id="strength-text">Start typing...</span>
+        <span class="score-label" id="score-label" style="display:none;"></span>
+      </div>
+      <div class="requirements" id="requirements"></div>
+    </div>
+
+    <!-- Form Validator -->
+    <div class="card">
+      <h2>Registration Form Validator</h2>
+      <form id="reg-form" autocomplete="off">
+        <div class="field">
+          <label for="name">Full Name</label>
+          <input type="text" id="name" placeholder="John Doe">
+          <div class="error-msg" id="name-error"></div>
+        </div>
+        <div class="field">
+          <label for="email">Email</label>
+          <input type="email" id="email" placeholder="john@example.com">
+          <div class="error-msg" id="email-error"></div>
+        </div>
+        <div class="field">
+          <label for="phone">Phone</label>
+          <input type="text" id="phone" placeholder="+1234567890">
+          <div class="error-msg" id="phone-error"></div>
+        </div>
+        <div class="field">
+          <label for="reg-password">Password</label>
+          <input type="password" id="reg-password" placeholder="Min 8 characters">
+          <div class="error-msg" id="reg-password-error"></div>
+        </div>
+        <div class="field">
+          <label for="confirm">Confirm Password</label>
+          <input type="password" id="confirm" placeholder="Re-enter password">
+          <div class="error-msg" id="confirm-error"></div>
+        </div>
+        <button type="submit">Validate & Submit</button>
+        <div id="form-result" style="margin-top: 0.75rem;"></div>
+      </form>
+    </div>
+
+    <!-- Discount Calculator -->
+    <div class="card discount-card">
+      <h2>Discount Calculator</h2>
+      <div class="field-row">
+        <div class="field">
+          <label for="price">Original Price ($)</label>
+          <input type="number" id="price" placeholder="100" min="0" step="0.01">
+        </div>
+        <div class="field">
+          <label for="discount">Discount (%)</label>
+          <input type="number" id="discount" placeholder="20" min="0" max="100">
+        </div>
+      </div>
+      <button id="calc-discount">Calculate</button>
+      <div class="result" id="discount-result">—</div>
+    </div>
+
+  </div>
+
+  <script type="module">
+    import checkPasswordStrength from './src/passwordStrength.js';
+    import { validateField, validateForm } from './src/validator.js';
+    import calculateDiscount from './src/discountCalculator.js';
+
+    // ── Password Strength Checker ──
+    const pwInput = document.getElementById('password');
+    const pwError = document.getElementById('pw-error');
+    const strengthFill = document.getElementById('strength-fill');
+    const strengthText = document.getElementById('strength-text');
+    const scoreLabel = document.getElementById('score-label');
+    const requirements = document.getElementById('requirements');
+
+    const colors = {
+      0: '#e74c3c',
+      1: '#e74c3c',
+      2: '#e67e22',
+      3: '#f1c40f',
+      4: '#2ecc71',
+      5: '#27ae60',
+      6: '#1e8449',
+    };
+
+    const widths = {
+      0: '10%',
+      1: '20%',
+      2: '35%',
+      3: '55%',
+      4: '75%',
+      5: '90%',
+      6: '100%',
+    };
+
+    pwInput.addEventListener('input', function () {
+      const val = this.value;
+      const result = checkPasswordStrength(val);
+
+      pwError.textContent = result.level === 'invalid'
+        ? result.feedback[0]
+        : '';
+      this.className = result.level === 'invalid' ? 'error' : '';
+
+      const s = result.score;
+      strengthFill.style.width = widths[s] || '0%';
+      strengthFill.style.background = colors[s] || '#eee';
+      strengthText.textContent = result.feedback.length
+        ? result.feedback[0]
+        : 'Strong password!';
+      scoreLabel.textContent = result.level.toUpperCase();
+      scoreLabel.style.display = result.level !== 'invalid' ? 'inline-block' : 'none';
+      scoreLabel.className = 'score-label ' + result.level.replace(' ', '-');
+
+      const reqs = [
+        { met: result.details.length >= 8, label: '8+ chars' },
+        { met: result.details.hasUppercase, label: 'Uppercase' },
+        { met: result.details.hasLowercase, label: 'Lowercase' },
+        { met: result.details.hasNumber, label: 'Number' },
+        { met: result.details.hasSymbol, label: 'Symbol' },
+        { met: !result.details.hasSpace, label: 'No spaces' },
+      ];
+
+      requirements.innerHTML = reqs
+        .map(function (r) {
+          return '<span class="' + (r.met ? 'met' : 'unmet') + '">' +
+            (r.met ? '&#10003;' : '&#10007;') + ' ' + r.label +
+            '</span>';
+        })
+        .join('');
+    });
+
+    // ── Form Validator ──
+    const regForm = document.getElementById('reg-form');
+    const formResult = document.getElementById('form-result');
+
+    const fieldIds = ['name', 'email', 'phone', 'reg-password', 'confirm'];
+    const fieldMap = {
+      'reg-password': 'password',
+    };
+
+    for (let i = 0; i < fieldIds.length; i++) {
+      const id = fieldIds[i];
+      const el = document.getElementById(id);
+      el.addEventListener('input', function () {
+        const fieldName = fieldMap[id] || id;
+        const error = validateField(fieldName, this.value, getFormData());
+        const errEl = document.getElementById(id + '-error');
+        errEl.textContent = error || '';
+        this.className = error ? 'error' : '';
+      });
+    }
+
+    function getFormData() {
+      return {
+        name: document.getElementById('name').value,
+        email: document.getElementById('email').value,
+        phone: document.getElementById('phone').value,
+        password: document.getElementById('reg-password').value,
+        confirmPassword: document.getElementById('confirm').value,
+      };
+    }
+
+    regForm.addEventListener('submit', function (e) {
+      e.preventDefault();
+      const data = getFormData();
+      const errors = validateForm(data);
+
+      if (Object.keys(errors).length === 0) {
+        formResult.innerHTML = '<div class="success">Form is valid! Ready to submit.</div>';
+      } else {
+        formResult.innerHTML = '';
+        for (const [field, msg] of Object.entries(errors)) {
+          const displayField = field === 'password' ? 'reg-password' : field;
+          const errEl = document.getElementById(displayField + '-error');
+          if (errEl) errEl.textContent = msg;
+        }
+      }
+    });
+
+    // ── Discount Calculator ──
+    document.getElementById('calc-discount').addEventListener('click', function () {
+      const price = parseFloat(document.getElementById('price').value);
+      const discount = parseFloat(document.getElementById('discount').value);
+      const resultEl = document.getElementById('discount-result');
+
+      if (isNaN(price) || isNaN(discount)) {
+        resultEl.textContent = 'Please enter valid numbers';
+        resultEl.style.color = '#e74c3c';
+        return;
+      }
+
+      if (price < 0) {
+        resultEl.textContent = 'Price cannot be negative';
+        resultEl.style.color = '#e74c3c';
+        return;
+      }
+
+      const finalPrice = calculateDiscount(price, discount);
+      resultEl.textContent = '$' + finalPrice.toFixed(2);
+      resultEl.style.color = '#1a1a2e';
+    });
+  </script>
+
+</body>
+</html>
