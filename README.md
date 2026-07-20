@@ -2,6 +2,8 @@
 
 A repository demonstrating AI-assisted software development workflows through structured prompt engineering.
 
+![alt text](image.png)
+
 ## Exercises
 
 | # | Topic | Prompt | Source Code | Key Learning |
