@@ -16,11 +16,23 @@ A repository demonstrating AI-assisted software development workflows through st
 
 ```
 ├── README.md
-├── responsible-ai-policy.md    # Guidelines for responsible AI usage
-├── prompts/                    # Prompt files for each exercise
-├── src/                        # JavaScript source files
-├── tests/                      # Test files
-└── screenshots/                # Exercise screenshots
+├── index.html                          # Web UI integrating all modules
+├── responsible-ai-policy.md            # Guidelines for responsible AI usage
+├── ai-usage-report.md                  # Token usage and AI tool tracking
+├── prompts/
+│   ├── 01-bad-vs-good-prompts.md       # Prompt quality comparison
+│   ├── 02-code-generation-prompts.md   # Modular form validator generation
+│   ├── 03-debugging-prompts.md         # Discount calculation bug fix
+│   ├── 04-refactoring-prompts.md       # Receipt printer code cleanup
+│   └── 05-code-review-prompts.md       # Strict senior engineer code review
+├── src/
+│   ├── passwordStrength.js             # Password strength checker
+│   ├── validator.js                    # Reusable form validation module
+│   ├── discountCalculator.js           # Discount calculation logic
+│   └── textAnalyzer.js                 # Receipt printer
+├── tests/
+├── screenshots/
+└── .github/
 ```
 
 ## Responsible AI
