@@ -28,7 +28,7 @@ Create a password checker.
 
 AI Output
 
-
+``` javascript
 const MIN_LENGTH = 8;
 const STRONG_LENGTH = 12;
 
@@ -137,7 +137,7 @@ export function checkPasswordStrength(password) {
 
 export default checkPasswordStrength;
 
-
+```
 AI Thought:
 Password checker created at src/passwordStrength.js:65. It exports checkPasswordStrength(password) which returns an object with:
 - score — numeric (0-6) based on length, uppercase, lowercase, numbers, special chars, with a penalty for common patterns
@@ -205,6 +205,7 @@ Explain how to manually test it.
 
 OUTPUT:
 
+```
 function checkPasswordStrength(password) {
   if (password === null || password === undefined) {
     return { score: 0, level: 'invalid', feedback: ['Password cannot be null or undefined.'] };
@@ -302,7 +303,7 @@ function checkPasswordStrength(password) {
     feedback: feedback
   };
 }
-
+```
 AI Remarks:
 
 
@@ -312,6 +313,7 @@ Key design decisions:
 - hasSymbol excludes spaces (\s) so spaces aren't double-counted as both a symbol and a penalty.
 - Null/undefined/non-strings return level: 'invalid' instead of throwing, so the form can call this safely on any value.
 Test cases
+```
 Input
 'Tr0ub4dor&3'
 'Hello123'
@@ -329,8 +331,9 @@ Manual testing
 Open browser DevTools or Node.js. Copy-paste the function, then run:
 // Basic check
 checkPasswordStrength('MyP@ssw0rd');
-
+```
 // Edge cases
+```
 checkPasswordStrength('');
 checkPasswordStrength(null);
 checkPasswordStrength('   ');
@@ -340,5 +343,5 @@ input.addEventListener('input', function() {
   strengthLabel.textContent = result.level;
   feedbackList.innerHTML = result.feedback.map(f => '<li>' + f + '</li>').join('');
 });
-
+```
 
