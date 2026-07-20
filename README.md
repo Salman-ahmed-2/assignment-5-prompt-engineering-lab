@@ -8,8 +8,8 @@ A repository demonstrating AI-assisted software development workflows through st
 |---|-------|--------|-------------|--------------|
 | 1 | Bad vs Good Prompts | `prompts/01-bad-vs-good-prompts.md` | `src/passwordStrength.js` | How prompt quality affects AI output |
 | 2 | Code Generation | `prompts/02-code-generation-prompts.md` | `src/validator.js` | Generating reusable modules with constraints |
-| 3 | Debugging | `prompts/prompts/03-debuggin g-prompts.md` | `src/discountCalculator.js` | AI-assisted bug fixing with context |
-| 4 | Refactoring | `prompts/prompts/04-refactorin g-prompts.md` | `src/textAnalyzer.js` | AI-driven code cleanup preserving behavior |
+| 3 | Debugging | `prompts/03-debugging-prompts.md` | `src/discountCalculator.js` | AI-assisted bug fixing with context |
+| 4 | Refactoring | `prompts/04-refactoring-prompts.md` | `src/textAnalyzer.js` | AI-driven code cleanup preserving behavior |
 | 5 | Code Review | `prompts/05-code-review-prompts.md` | `src/passwordStrength.js` | AI as a strict senior engineer reviewer |
 
 ## Repository Structure
